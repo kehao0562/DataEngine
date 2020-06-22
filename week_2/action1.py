@@ -12,6 +12,7 @@ import pandas as pd
 
 table_head = ['id', 'brand', 'car_model', 'type', 'description', 'problem', 'datetime', 'status']
 
+
 def get_content(request_url):
     # 得到页面的内容
     headers = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36'}
@@ -20,6 +21,7 @@ def get_content(request_url):
     # 通过content创建BeautifulSoup对象
     soup = BeautifulSoup(content, 'html.parser', from_encoding='utf-8')
     return soup
+
 
 def content_analysis(soup):
     # table_head = ['id', 'brand', 'car_model', 'type', 'description', 'problem', 'datetime', 'status']
@@ -32,14 +34,16 @@ def content_analysis(soup):
     for tr in tr_list:
         # 获取每行信息
         td_list = tr.find_all('td')
+        # print(td_list)
         # 用于保存每行结果的字典
         item = {}
-        if len(td_list) > 0:
-            for i in range(len(td_list)):
-                item[table_head[i]] = td_list[i].text
+        # if len(td_list) > 0:
+        for i in range(len(td_list)):
+            item[table_head[i]] = td_list[i].text
         df = df.append(item, ignore_index=True)
     df.drop(0, axis=0, inplace=True)
     return df
+
 
 def complaint_scrap():
     # 获取抱怨信息
@@ -55,14 +59,15 @@ def complaint_scrap():
         soup = get_content(request_url)
         # 解析每页内容，结果添加在DataFrame最后
         df = content_analysis(soup)
-        result = result.append(df)
+        result = result.append(df, ignore_index=True)
     print(result)
     # 保存结果至csv文件
     result.to_csv('result.csv', index=False, encoding='utf-8')
 
+
 def main():
     complaint_scrap()
 
+
 if __name__ == "__main__":
     main()
-    
