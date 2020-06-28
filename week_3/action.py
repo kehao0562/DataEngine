@@ -59,7 +59,7 @@ def K_means(data, n_clusters=4):
 
 
 # K-Means手肘法：统计不同K取值的误差平方和
-def elbow_mothod(data):
+def elbow_method(data):
     """
     统计不同K取值的误差平方和
     
@@ -93,7 +93,7 @@ def main():
     # 将结果导出到CSV文件中
     result.to_csv("car_data_cluster_result.csv", index=False, encoding='gbk')
     # 手肘法
-    elbow_mothod(data)
+    elbow_method(data)
 
 if __name__ == "__main__":
     main()
