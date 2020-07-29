@@ -60,7 +60,7 @@ def get_auto_info(soup):
         else:
             item['最低价格（万）'] = float(price.split('-')[0])
             item['最高价格（万）'] = float(price.split('-')[1][:-1])
-        item['产品图片链接'] = photolink_list[i]['src']
+        item['产品图片链接'] = 'http:' + photolink_list[i]['src']
         df = df.append(item, ignore_index=True)
     return df
 
